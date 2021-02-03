@@ -1,9 +1,22 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { viewUser, deleteUser } from "./../redux/actions/user";
 
 
 const UserList = () => {
-    const users = useSelector(state => state.users);
+    const dispatch = useDispatch();
+    const users = useSelector(state => state.users.users);
+    console.log("In employee list...");
+
+    const handleEdit = (e) => {
+        let employeeKey = e.target.getAttribute("data-key") ?? '';
+        dispatch(viewUser(employeeKey));
+    }
+
+    const handleDelete = (e) => {
+        let employeeKey = e.target.getAttribute("data-key") ?? '';
+        dispatch(deleteUser(employeeKey))
+    }
 
     return (
         <>
@@ -18,7 +31,7 @@ const UserList = () => {
                             <th>#</th>
                             <th>Name</th>
                             <th>Phone</th>
-                            <th>Actions</th>
+                            <th>&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -29,7 +42,10 @@ const UserList = () => {
                                     <td>{key+1}</td>
                                     <td>{row.name}</td>
                                     <td>{row.phone}</td>
-                                    <td></td>
+                                    <td className="text-end">
+                                        <button data-key={key} onClick={handleEdit} className="btn btn-primary me-1" type="button">Edit</button>
+                                        <button data-key={key} onClick={handleDelete} className="btn btn-danger" type="button">Delete</button>
+                                    </td>
                                 </tr>
                             );
                         }

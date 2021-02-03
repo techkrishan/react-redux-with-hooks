@@ -6,30 +6,31 @@ export const listUsers = () => {
     }
 }
 
-export const viewUser = () => {
+export const viewUser = (id) => {
     return {
-        type: constants.user.view
+        type: constants.user.view,
+        payload: id
     }
 }
 
 
 export const addUser = (requestData) => {
-    console.log(requestData);
-    console.log("In user action!");
     return {
         type: constants.user.add,
         payload: requestData
     }
 }
 
-export const editUser = () => {
+export const editUser = (requestData) => {
     return {
-        type: constants.user.edit
+        type: constants.user.edit,
+        payload: requestData
     }
 }
 
-export const deleteUser = () => {
+export const deleteUser = (id) => {
     return {
-        type: constants.user.delete
+        type: constants.user.delete,
+        payload: id
     }
 }

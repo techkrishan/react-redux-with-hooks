@@ -1,8 +1,11 @@
-import { addUser } from "./../../services/user";
+import { addUser, editUser, listUser, viewUser, deleteUser } from "./../../services/user";
 import constants from "./../../config/constants";
 
-let initialState = [
-    {
+let initialState = {
+    loading: false,
+    error: false,
+    message: '',
+    users: [{
         name: "Krishan Mohan",
         phone: "9630214587"
     },
@@ -21,19 +24,22 @@ let initialState = [
     {
         name: "Rohit Kumar",
         phone: "9630214581"
-    },
-]
+    }],
+    details: {}
+};
 
 const userReducer = (state = initialState, action) => {
     switch(action.type) {
         case constants.user.add:
             return addUser(state, action.payload);
         case constants.user.edit:
-            return state;
+            return editUser(state, action.payload);
         case constants.user.delete:
-            return state;
+            return deleteUser(state, action.payload);
         case constants.user.view:
-            return state;
+            return viewUser(state, action.payload);
+        case constants.user.list:
+            return listUser(state);
         default:
             return state;
     }

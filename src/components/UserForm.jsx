@@ -1,18 +1,30 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { addUser } from "./../redux/actions/user";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser, editUser, listUsers } from "./../redux/actions/user";
 
 
 const UserForm = () => {
+    const users = useSelector(state => state.users);
+    let details = useSelector(state => state.users.details);
     const dispatch = useDispatch();
-
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         let requestData = {
             name: e.target.name.value ?? '',
             phone: e.target.phone.value ?? ''
         }
-        dispatch(addUser(requestData));
+        let employeeId = e.target.employee_id.value ?? '';
+        if(employeeId !== '') {
+            requestData.id = employeeId;
+            dispatch(editUser(requestData));
+        } else {
+            dispatch(addUser(requestData));
+        }
+
+        if(users.error === '') {
+            dispatch(listUsers());
+        }
     }
 
     return (
@@ -22,16 +34,17 @@ const UserForm = () => {
                 <h2>Add Employee</h2>
             </div>
             <form className="container" onSubmit={handleSubmit}>
+                <input type="hidden" name="employee_id" id="employee_id" defaultValue={details.id ?? ''} />
                 <div className="mb-3 row">
                     <label htmlFor="name" className="col-sm-2 col-form-label">Name</label>
                     <div className="col-sm-10">
-                        <input type="text" className="form-control" name="name" id="name" />
+                        <input type="text" className="form-control" name="name" id="name" defaultValue={details.name ?? ''} />
                     </div>
                 </div>
                 <div className="mb-3 row">
                     <label htmlFor="phone" className="col-sm-2 col-form-label">Phone</label>
                     <div className="col-sm-10">
-                        <input type="text" className="form-control" name="phone" id="phone" />
+                        <input type="text" className="form-control" name="phone" id="phone" defaultValue={details.phone ?? ''} />
                     </div>
                 </div>
 
