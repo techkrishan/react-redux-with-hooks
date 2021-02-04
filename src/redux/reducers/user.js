@@ -5,6 +5,7 @@ let initialState = {
     loading: false,
     error: false,
     message: '',
+    isEdit: false,
     users: [{
         name: "Krishan Mohan",
         phone: "9630214587"
